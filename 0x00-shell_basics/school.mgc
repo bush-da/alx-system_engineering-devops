@@ -1,1 +1,2 @@
-!:mime school
+#!/bin/bash
+!:mime type -m SCHOOL *
