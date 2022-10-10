@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -aRl | find -type d | wc -l
+ls -aRl | grep "^d" | wc -l
