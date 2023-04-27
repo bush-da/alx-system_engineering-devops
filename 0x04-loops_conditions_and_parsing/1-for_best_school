@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
-#1-for_best_school
+# Tis script id displaying "Best School" 10 times
 
-#echo Hello world 10 times
-
-for (( i=0; i<10; i++ ))
+for (( i=0 ; i<10 ; i++ ))
 do
-    echo "Hello world"
+    echo "Best School"
 done
