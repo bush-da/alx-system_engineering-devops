@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# This script echo "Best School" and echo "bad luck" in 4th iteration
+#+ "good luck" in 8th loop iteration
+
+i=1
+while [ "$i" -lt 21 ]
+do
+    if [ "$i" -eq 4 ]
+    then
+	echo "$i"
+	echo "bad luck from China"
+    elif [ "$i" -eq 9 ]
+    then
+	echo "$i"
+	echo "bad luck from Japan"
+    elif [ "$i" -eq 17 ]
+    then
+	echo "$i"
+	echo "bad luck from Italy"
+    else
+	echo "$i"
+    fi
+    i=$(( i+1 ))
+done
