@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# This script echo "Best School" and echo "Hi" after print 8 times
+
+i=0
+while [ "$i" -lt 11 ]
+do
+    if [ "$i" -eq 9 ]
+    then
+	echo "Hi"
+    else
+	echo "Best School"
+    fi
+       i=$(( i+1 ))
+done
