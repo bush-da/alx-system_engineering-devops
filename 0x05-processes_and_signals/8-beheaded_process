@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# This script will stop process that started by "4-to_infinity_and_beyond"
+#+ without using kill or killall
+pid=$(pgrep -f ./7-highlander)
+kill -9 "$pid"
