@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# This script displays it own PID
+
+ps | head -2 | tail -1 | cut -d " " -f4
