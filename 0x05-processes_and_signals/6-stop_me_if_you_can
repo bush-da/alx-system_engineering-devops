@@ -2,5 +2,4 @@
 # This script will stop process that started by "4-to_infinity_and_beyond"
 #+ without using kill or killall
 
-pid=$(pgrep -f ./4-to_infinity_and_beyond)
-kill -TERM $pid
+pkill -f 4-to_infinity_and_beyond
