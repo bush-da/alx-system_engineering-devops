@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# This script will display message forever until the process is killed
+
+i=10
+while [ $i -lt 11 ]
+do
+    echo "To infinity and beyond"
+    sleep 2
+done
