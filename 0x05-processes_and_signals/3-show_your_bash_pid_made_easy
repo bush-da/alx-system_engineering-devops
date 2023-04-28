@@ -7,6 +7,6 @@ pids=$(pgrep -d ' ' -f bash)
 
 for pid in $pids
 do
-    name=$(grep -w "Name:" /proc/$pid/status | cut -d ":" -f2)
+    name=$(grep -w "Name:" /proc/"$pid"/status | cut -d ":" -f2)
     echo "$pid $name"
 done
