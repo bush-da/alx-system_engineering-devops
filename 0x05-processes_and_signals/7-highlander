@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# This script will print message indefinitely and print "I am invincible!!!"
+#+ when received SIGTERM signal
+
+# function that print message when called
+function message {
+    echo "I am invincible!!!"
+}
+
+while true
+do
+    echo "To infinity and beyond"
+    trap message SIGTERM
+    sleep 2
+
+done
