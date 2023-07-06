@@ -1,7 +1,0 @@
-#!/usr/bin/bash
-#configures an Ubuntu server
-
-cp /etc/hosts ~/hosts.new
-echo "localhost    127.0.0.2" > ~/hosts.new
-echo "facebook.com    8.8.8.8" >> ~/hosts.new
-cp -f ~/hosts.new /etc/hosts
