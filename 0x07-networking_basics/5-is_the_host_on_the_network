@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 #ping ip address pass from command line arg
 
 if [ "$#" -eq 0 ]
