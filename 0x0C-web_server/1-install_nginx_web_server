@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# install nginx on server
+apt install -y nginx
+
+echo "Hello World!" > /var/www/html/index.html
+
+sed -i "s/80 default_server;/80;/g" /etc/nginx/sites-available/default
+
+if pgrep nginx > /dev/null; then
+    nginx -s reload
+else
+    nginx
+fi
+
+
