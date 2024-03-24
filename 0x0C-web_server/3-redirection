@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# install nginx on server
+apt install -y nginx
+
+# create index.html with hello world in it
+echo "Hello World!" > /var/www/html/index.html
+
+# modify nginx confi
+sed -i "s/80 default_server;/80;/g" /etc/nginx/sites-available/default
+
+# add redirection for /redirect_me
+sed -i '/server_name _;/a \\n        location /redirect_me {\n                 return 301 https://www.youtube.com/watch?v=AfIOBLr1NDU;\n    }' /etc/nginx/sites-available/default
+
+# check if nginx is running
+if pgrep nginx > /dev/null; then
+    # reload nginx confi
+    nginx -s reload
+else
+    # start nginx
+    nginx
+fi
+
+
