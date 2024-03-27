@@ -25,25 +25,25 @@ file { '/etc/nginx/html/404.html':
 file { '/etc/nginx/sites-available/default':
   ensure  => present,
   content => "\
-Server {
+server {
   listen 80;
   listen [::]:80 default_server;
 
   root /etc/nginx/html;
 
-  index index.html index.htm
+  index index.html index.htm;
 
   server_name _;
 
   location / {
-      try_files $uri $uri/ =404;
+      try_files \$uri \$uri/ =404;
   }
 
   location /redirect_me {
     return 301 https://www.youtube.com/watch?v=AfIOBLr1NDU;
   }
 
-  error_page 404 /404.html
+  error_page 404 /404.html;
 
   location = /404.html {
       root /etc/nginx/html;
@@ -51,19 +51,12 @@ Server {
   }
 }
 ",
- require => Package['nginx']
- notify  => Service['nginx']
+ require => Package['nginx'],
+ notify  => Service['nginx'],
 }
 
 # define Nginx Service
 service { 'nginx':
   ensure  => running,
   enable  => true,
-}
-
-# Define firewall rule to allow HTTP traffic
-firewall { 'Allow HTTP':
-  port   => 80,
-  proto  => 'tcp',
-  action => 'accept',
 }
