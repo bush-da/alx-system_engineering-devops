@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-# connect without password to sever
 file { '/etc/ssh/ssh_config':
   ensure  => 'present',
   mode    => '0600',
