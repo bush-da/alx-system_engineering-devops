@@ -1,6 +1,6 @@
 # create a file
 file { '/tmp':
-  ensure  => present,
+  ensure  => 'present',
   path    => '/tmp/school',
   mode    => '0744',
   content => 'I love Puppet',
