@@ -9,17 +9,8 @@ touch /etc/nginx/html/index.html
 
 echo "Hello World!" > /etc/nginx/html/index.html
 
-printf %s "server {
-     listen      80 default_server;
-     listen      [::]:80 default_server;
-     root        /etc/nginx/html;
-     index       index.html index.htm;
-
-     location	 /redirect_me {
-         return 301 https://www.youtube.com/watch?v=AfIOBLr1NDU;
-     }
-}
-" > /etc/nginx/sites-available/default
+sed -i '/server_name _;/a \\n        location /redirect_me {\n                 return 301 https://google.com;\n    }\
+' /etc/nginx/sites-available/default
 
 if pgrep nginx > /dev/null
 then
