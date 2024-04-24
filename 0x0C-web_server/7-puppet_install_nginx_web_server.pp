@@ -8,7 +8,7 @@ file { '/etc/nginx/html':
 
 file { '/etc/nginx/html/index.html':
   ensure  => file,
-  content => "Hello World!",
+  content => 'Hello World!',
 }
 
 file { '/etc/nginx/html/404.html':
@@ -29,7 +29,7 @@ file { '/etc/nginx/sites-available/default':
      server_name _;
 
      location / {
-         try_files /$uri /$uri\ =404;
+         try_files /${uri} /${uri}\ =404;
      }
 
      location /redirect_me {
