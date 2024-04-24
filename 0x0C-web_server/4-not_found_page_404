@@ -9,6 +9,10 @@ touch /etc/nginx/html/index.html
 # create index.html with hello world in it
 echo "Hello World!" > /etc/nginx/html/index.html
 
+touch /etc/nginx/html/404.html
+
+echo "Ceci n'est pas une page" > /etc/nginx/html/404.html
+
 # modify nginx confi
 sed -i "s/80 default_server;/80;/g" /etc/nginx/sites-available/default
 
