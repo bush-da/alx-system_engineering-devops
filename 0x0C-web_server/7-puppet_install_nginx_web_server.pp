@@ -3,24 +3,28 @@ package { 'nginx':
   ensure => installed,
 }
 
+# create a directory
 file { '/etc/nginx/html':
   ensure => directory,
 }
 
+# create a file index.html with content Hello World!
 file { '/etc/nginx/html/index.html':
   ensure  => file,
   content => 'Hello World!',
 }
 
+# create a file 404.html with a content
 file { '/etc/nginx/html/404.html':
   ensure  => file,
   content => "Ceci n'est pas une page",
 }
 
+# config nginx
 file { '/etc/nginx/sites-available/default':
   ensure  => present,
-  content => "/
-   server {
+  content => "\
+  server {
      listen 80;
      listen [::]:80;
 
@@ -30,7 +34,7 @@ file { '/etc/nginx/sites-available/default':
      server_name _;
 
      location / {
-         try_files /${uri} /${uri}\ =404;
+         try_files \${uri} \${uri}/ =404;
      }
 
      location /redirect_me {
@@ -48,7 +52,8 @@ file { '/etc/nginx/sites-available/default':
   notify  => Service['nginx'],
 }
 
+# define nginx service
 Service { 'nginx':
-  ensure  => 'running',
+  ensure  => running,
   enable  => true,
 }
