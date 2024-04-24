@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# get Apache to run on the container and to return a page containing Hello Holberton when querying the root of it.
+echo "<!DOCTYPE html><html><head><title>Hello Holberton</title></head><body><h1>Hello Holberton</h1></body></html>" > index.html
+docker build -t holbertonschool/265-0 .
+docker run -p 8080:80 -d holbertonschool/265-0
