@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+# Install NGINX
+apt install -y nginx
+
+# Create directory and files
+mkdir -p /etc/nginx/html
+touch /etc/nginx/html/index.html
+touch /etc/nginx/html/404.html
+
+# Create index.html and 404.html content
+echo "Hello World!" > /etc/nginx/html/index.html
+echo "Ceci n'est pas une page" > /etc/nginx/html/404.html
+
+# Modify NGINX configuration
+
+# Modify NGINX port
+sed -i "s/80 default_server;/80;/g" /etc/nginx/sites-available/default
+
+# Change the root directory
+sed -i 's@root /var/www/html;@root /etc/nginx/html;@' /etc/nginx/sites-available/default
+
+# Add redirection for /redirect_me if not already added
+if ! grep -q "location /redirect_me" /etc/nginx/sites-available/default; then
+    sed -i '/server_name _;/a \\n        location /redirect_me {\n                 return 301 https://www.youtube.com/watch?v=AfIOBLr1NDU;\n    }' /etc/nginx/sites-available/default
+fi
+
+# Add 404 page handler if not already added
+if ! grep -q "error_page 404" /etc/nginx/sites-available/default; then
+    sed -i '/server_name _;/a \\n        error_page 404 /404.html; \n        location /404 {\n                 root /etc/nginx/html;\n                 internal; \n    }' /etc/nginx/sites-available/default
+fi
+
+# Add custom header if not already added
+if ! grep -q "add_header X-Served-By" /etc/nginx/sites-available/default; then
+    sed -i '/server_name _;/a \\n        add_header X-Served-By $hostname;' /etc/nginx/sites-available/default
+fi
+
+# Check if NGINX is running
+if pgrep nginx > /dev/null; then
+    # Reload NGINX configuration
+    nginx -s reload
+else
+    # Start NGINX
+    nginx
+fi
