@@ -28,9 +28,9 @@ file { '/etc/nginx/sites-available/default':
      listen 80;
      listen [::]:80;
 
+     add_header X-Served-By $hostname;
      root /etc/nginx/html;
      index index.html index.htm;
-     add_header X-Served-By $hostname;
 
      server_name _;
 
