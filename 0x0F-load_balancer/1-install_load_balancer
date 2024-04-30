@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# install haproxy load balancer and configure it to the requirement
 # Enable dedicated PPA
 apt-get install -y software-properties-common
 add-apt-repository -y ppa:vbernat/haproxy-2.8
