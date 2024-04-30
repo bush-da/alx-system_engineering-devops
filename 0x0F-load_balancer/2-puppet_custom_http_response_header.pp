@@ -35,7 +35,6 @@ server {
 	# Set root directory
 	root /etc/nginx/html;
 
-	# Add index.php to the list if using PHP
 	index index.html index.htm index.nginx-debian.html;
 
 	server_name _;
@@ -54,7 +53,7 @@ server {
 
 	# Serve files
 	location / {
-		try_files $uri $uri/ =404;
+		try_files \${uri} \${uri}/ =404;
 	}
 }
 ",
