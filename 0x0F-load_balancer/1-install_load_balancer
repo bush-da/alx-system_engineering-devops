@@ -1,33 +1,38 @@
 #!/usr/bin/env bash
-# Installs HAProxy version 1.8 with the following configurations:
-#+    Enables management via the init script.
-#+    Distributes requests using a round-robin algorithm.
-
+# install haproxy load balancer and configure it to the requirement
+# Enable dedicated PPA
 apt-get install -y software-properties-common
 add-apt-repository -y ppa:vbernat/haproxy
 apt-get update
+
+# Install HAProxy load balancer
 apt-get install -y haproxy
 
 echo "ENABLED=1" >> /etc/default/haproxy
+# Backup original haproxy.cfg file with added .original extension
 mv /etc/haproxy/haproxy.cfg{,.original}
+
+# Create new haproxy.cfg file
 touch /etc/haproxy/haproxy.cfg
 
-printf %s "global
+# Define content for haproxy.cfg
+config_content=$(cat <<EOF
+global
     log 127.0.0.1 local0 notice
     maxconn 2000
     user haproxy
     group haproxy
 
 defaults
-    log     global
-    mode    http
-    option  httplog
-    option  dontlognull
+    log global
+    mode http
+    option httplog
+    option dontlognull
     retries 3
     option redispatch
-    timeout connect  5000
-    timeout client  10000
-    timeout server  10000
+    timeout connect 5000
+    timeout client 10000
+    timeout server 10000
 
 listen http_server
     bind 0.0.0.0:80
@@ -39,6 +44,7 @@ listen http_server
     option forwardfor
     server 4306-web-01 54.210.57.42:80 check
     server 4306-web-02 54.90.60.225:80 check
-" >> /etc/haproxy/haproxy.cfg
+EOF
+)
 
 service haproxy start
