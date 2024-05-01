@@ -1,66 +1,61 @@
-# Install nginx package
+# install nginx package
 package { 'nginx':
   ensure => installed,
 }
 
-# Create a directory for HTML files
+# create a directory
 file { '/etc/nginx/html':
   ensure => directory,
 }
 
-# Create index.html with default content
+# create a file index.html with content Hello World!
 file { '/etc/nginx/html/index.html':
   ensure  => file,
   content => 'Hello World!',
 }
 
-# Create 404.html with custom content
+# create a file 404.html with a content
 file { '/etc/nginx/html/404.html':
   ensure  => file,
   content => "Ceci n'est pas une page",
 }
 
-# Configure nginx server
+# config nginx
 file { '/etc/nginx/sites-available/default':
   ensure  => present,
   content => "\
-# Default server configuration
-server {
-	listen 80;
-	listen [::]:80;
+  server {
+     listen 80;
+     listen [::]:80;
 
+     add_header X-Served-By $hostname;
 
-	# Set root directory
-	root /etc/nginx/html;
+     root /etc/nginx/html;
+     index index.html index.htm;
 
-	server_name _;
+     server_name _;
 
-	# Error handling
-	error_page 404 /404.html;
-	location /404.html {
-		root /etc/nginx/html;
-		internal;
-	}
+     location / {
+         try_files \${uri} \${uri}/ =404;
+     }
 
-	# Redirection
-	location /redirect_me {
-		return 301 https://www.youtube.com/watch?v=AfIOBLr1NDU;
-	}
+     location /redirect_me {
+       return 301 https://www.youtube.com/watch?v=AfIOBLr1NDU;
+     }
 
-	# Serve files
-	location / {
-                add_header X-Served-By $hostname;
-                index index.html index.htm
-		try_files \${uri} \${uri}/ =404;
-	}
-}
-",
+     error_page 404 /404.html;
+
+     location = /404.html {
+       root /etc/nginx/html;
+       internal;
+     }
+}",
   require => Package['nginx'],
   notify  => Service['nginx'],
 }
 
-# Ensure nginx service is running
-service { 'nginx':
+# define nginx service
+Service { 'nginx':
   ensure  => running,
   enable  => true,
 }
