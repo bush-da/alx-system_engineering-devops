@@ -11,15 +11,17 @@ package { 'nginx':
   require => Exec['apt-update'],
 }
 
+# Create a directory /etc/nginx/html
+file { '/etc/nginx/html':
+  ensure => directory,
+}
+
+
 # Create a new index.html
 file { 'Create index.html':
   require => Package['nginx'],
   path    => '/etc/nginx/html/index.html',
   content => 'Hello World!\n'
-}
-
-file { '/etc/nginx/html':
-  ensure => directory,
 }
 
 # Create a new error page
