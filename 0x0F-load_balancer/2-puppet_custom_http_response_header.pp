@@ -1,56 +1,66 @@
-# Puppet manifest to install and configure nginx server
-
 # Install nginx package
 package { 'nginx':
   ensure => installed,
 }
 
-# Create directory for HTML files
+# Create a directory for HTML files
 file { '/etc/nginx/html':
   ensure => directory,
 }
 
-# Create index.html with "Hello World!"
+# Create index.html with default content
 file { '/etc/nginx/html/index.html':
-  ensure  => present,
+  ensure  => file,
   content => 'Hello World!',
 }
 
-# Create 404.html with custom message
+# Create 404.html with custom content
 file { '/etc/nginx/html/404.html':
-  ensure  => present,
-  content => 'Ceci n\'est pas une page',
+  ensure  => file,
+  content => "Ceci n'est pas une page",
 }
 
-# Modify nginx configuration
+# Configure nginx server
 file { '/etc/nginx/sites-available/default':
   ensure  => present,
-  content => "
-    server {
-        listen 80;
+  content => "\
+# Default server configuration
+server {
+	listen 80;
+	listen [::]:80;
 
-        root /etc/nginx/html;
 
-        add_header X-Served-By $hostname;
+	# Set root directory
+	root /etc/nginx/html;
 
-        location /redirect_me {
-            return 301 https://www.youtube.com/watch?v=AfIOBLr1NDU;
-        }
+	server_name _;
 
-        error_page 404 /404.html;
-        location /404 {
-            internal;
-            root /etc/nginx/html;
-        }
-    }
-  ",
+	# Error handling
+	error_page 404 /404.html;
+	location /404.html {
+		root /etc/nginx/html;
+		internal;
+	}
+
+	# Redirection
+	location /redirect_me {
+		return 301 https://www.youtube.com/watch?v=AfIOBLr1NDU;
+	}
+
+	# Serve files
+	location / {
+                add_header X-Served-By $hostname;
+                index index.html index.htm
+		try_files \${uri} \${uri}/ =404;
+	}
+}
+",
   require => Package['nginx'],
+  notify  => Service['nginx'],
 }
 
-# Ensure nginx service is running and reload configuration if needed
+# Ensure nginx service is running
 service { 'nginx':
-  ensure     => running,
-  enable     => true,
-  hasrestart => true,
-  subscribe  => File['/etc/nginx/sites-available/default'],
+  ensure  => running,
+  enable  => true,
 }
