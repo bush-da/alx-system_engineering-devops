@@ -1,61 +1,49 @@
-# install nginx package
+# Puppet manifest to install and configure Nginx web server
+
+# Run apt-get update
+exec { 'apt-update':
+  command => '/usr/bin/apt-get update'
+}
+
+# Install nginx
 package { 'nginx':
-  ensure => installed,
+  ensure  => installed,
+  require => Exec['apt-update'],
 }
 
-# create a directory
-file { '/etc/nginx/html':
-  ensure => directory,
-}
-
-# create a file index.html with content Hello World!
-file { '/etc/nginx/html/index.html':
-  ensure  => file,
-  content => 'Hello World!',
-}
-
-# create a file 404.html with a content
-file { '/etc/nginx/html/404.html':
-  ensure  => file,
-  content => "Ceci n'est pas une page",
-}
-
-# config nginx
-file { '/etc/nginx/sites-available/default':
-  ensure  => present,
-  content => "\
-  server {
-     listen 80;
-     listen [::]:80;
-
-     add_header X-Served-By $hostname;
-
-     root /etc/nginx/html;
-     index index.html index.htm;
-
-     server_name _;
-
-     location / {
-         try_files \${uri} \${uri}/ =404;
-     }
-
-     location /redirect_me {
-       return 301 https://www.youtube.com/watch?v=AfIOBLr1NDU;
-     }
-
-     error_page 404 /404.html;
-
-     location = /404.html {
-       root /etc/nginx/html;
-       internal;
-     }
-}",
+# Create a new index.html
+file { 'Create index.html':
   require => Package['nginx'],
-  notify  => Service['nginx'],
+  path    => '/var/www/html/index.html',
+  content => 'Hello World!\n'
 }
 
-# define nginx service
-Service { 'nginx':
-  ensure  => running,
-  enable  => true,
+# Create a new error page
+file { 'Create 404.html':
+  require => Package['nginx'],
+  path    => '/var/www/html/404.html',
+  content => 'Ceci n\'est pas une page\n'
+}
+
+file { '/etc/nginx/sites-available/default':
+  content => "server {
+		listen 80 default_server;
+		server_name _;
+		root /var/www/html;
+		location / {
+			index index.html;
+			add_header X-Served-By $hostname;
+		}
+		rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
+	}",
+  require => Package['nginx'],
+}
+
+exec { 'run':
+  command  => 'sudo service nginx restart',
+  provider => shell,
+  require  => [
+    File['/etc/nginx/sites-available/default'],
+    Package['nginx'],
+  ],
 }
