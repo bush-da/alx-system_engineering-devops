@@ -30,7 +30,7 @@ server {
 	listen [::]:80;
 
 	# Add custom header X-Served-By
-	add_header X-Served-By $hostname;
+	add_header X-Served-By $HOSTNAME;
 
 	# Set root directory
 	root /etc/nginx/html;
@@ -41,7 +41,7 @@ server {
 
 	# Error handling
 	error_page 404 /404.html;
-	location = /404.html {
+	location /404.html {
 		root /etc/nginx/html;
 		internal;
 	}
