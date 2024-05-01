@@ -30,7 +30,7 @@ server {
 	listen [::]:80;
 
 	# Add custom header X-Served-By
-	add_header X-Served-By $HOSTNAME;
+	add_header X-Served-By $hostname;
 
 	# Set root directory
 	root /etc/nginx/html;
