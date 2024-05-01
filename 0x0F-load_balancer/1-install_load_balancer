@@ -42,7 +42,6 @@ listen http_server
     stats enable
     stats uri /haproxy?stats
     balance roundrobin
-    option httpclose
     option forwardfor
     server 4306-web-01 54.210.57.42:80 check
     server 4306-web-02 54.90.60.225:80 check
