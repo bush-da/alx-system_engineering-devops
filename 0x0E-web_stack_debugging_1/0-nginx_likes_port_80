@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Configure nginx server to listen on port 80
-killall -q -9 ${(lsof -t -i:80)
+sed -i 's/#user www-data/user nginx/' /etc/nginx/nginx.conf
 sed -i 's/listen [[:alnum:] ;]*;/listen 80;/g' /etc/nginx/sites-available/default
+chmod 644 /etc/nginx/nginx.conf
 pkill apache2
-nginx -s reload
+sudo service nginx restart
