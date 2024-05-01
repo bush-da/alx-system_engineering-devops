@@ -47,4 +47,6 @@ listen http_server
 EOF
 )
 
+echo "$config_content" > /etc/haproxy/haproxy.cfg
+
 service haproxy start
