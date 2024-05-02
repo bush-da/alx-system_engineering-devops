@@ -2,5 +2,4 @@
 # fix nginx to listen to port 80
 rm /etc/nginx/sites-enabled
 ln -s /etc/nginx/sites-enabled /etc/nginx/sites-available
-service nginx stop
 
