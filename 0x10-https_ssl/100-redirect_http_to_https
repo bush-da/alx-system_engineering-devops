@@ -1,0 +1,33 @@
+global
+    log 127.0.0.1 local0 notice
+    maxconn 2048
+    user haproxy
+    group haproxy
+    tune.ssl.default-dh-param 2048
+
+defaults
+    log global
+    mode http
+    option httplog
+    option dontlognull
+    retries 3
+    option redispatch
+    timeout connect 5000
+    timeout client 10000
+    timeout server 10000
+
+frontend http_front
+    bind *:80
+    bind *:443 ssl crt etc/letsencrypt/live/www.aaroncode.tech/cert.pem
+    mode http
+    stats enable
+    stats uri /haproxy?stats
+    option httpclose
+    option forwardfor
+    http-request redirect scheme https code 301 if ! { ssl_fc }
+    use_backend http_back
+
+backend http_back
+    balance roundrobin
+    server 4306-web-01 54.210.57.42:80 check
+    server 4306-web-02 54.90.60.225:80 check
