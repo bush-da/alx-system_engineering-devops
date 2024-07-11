@@ -42,8 +42,8 @@ listen http_server
     balance roundrobin
     option httpclose
     option forwardfor
-    server 4306-web-01 54.210.57.42:80 check
-    server 4306-web-02 54.90.60.225:80 check
+    server 4306-web-01 54.174.245.151:80 check
+    server 4306-web-02 52.91.134.16:80 check
 EOF
 )
 
