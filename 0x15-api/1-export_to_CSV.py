@@ -22,7 +22,7 @@ def get_emp_todo_list(emp_id):
 
     emp = response.json()
     """ get employee name """
-    emp_name = emp['name']
+    emp_name = emp.get("username")
 
     todos_url = f'{base_url}/todos?userId={emp_id}'
     response = requests.get(todos_url)
@@ -41,7 +41,7 @@ def get_emp_todo_list(emp_id):
     """ writing the data to a CSV file """
     csv_filename = f'{emp_id}.csv'
     with open(csv_filename, 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
+        writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
         writer.writerows(csv_data)
 
 
