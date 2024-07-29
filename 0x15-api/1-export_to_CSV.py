@@ -41,7 +41,7 @@ def get_emp_todo_list(emp_id):
     """ writing the data to a CSV file """
     csv_filename = f'{emp_id}.csv'
     with open(csv_filename, 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+        writer = csv.writer(csvfile)
         writer.writerows(csv_data)
 
 
