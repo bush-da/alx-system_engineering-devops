@@ -8,7 +8,7 @@ def number_of_subscribers(subreddit):
     """Accept subreddit and return number of subscribers
     for the subreddit"""
     url = f"https://www.reddit.com/r/{subreddit}/about.json"
-    headers = {'User-Agent': 'custom-user-agent-v1.0'}
+    headers = {'User-Agent': 'linux:0x16.api.advanced:v1.0.0 (by /u/dani)'}
 
     try:
         """Make a GET request to the Reddit API"""
