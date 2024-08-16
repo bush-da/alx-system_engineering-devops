@@ -8,18 +8,11 @@ def number_of_subscribers(subreddit):
     """Accept subreddit and return number of subscribers
     for the subreddit"""
     url = f"https://www.reddit.com/r/{subreddit}/about.json"
-    headers = {'User-Agent': 'linux:0x16.api.advanced:v1.0.0 (by /u/dani)'}
+    headers = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0'}
 
-    try:
-        """Make a GET request to the Reddit API"""
-        response = requests.get(url, headers=headers, allow_redirects=False)
-
-        """Check if the status code is 200 (OK)"""
-        if response.status_code == 200:
-            data = response.json()
-            return data['data']['subscribers']
-        else:
-            return 0
-
-    except requests.RequestException as e:
+    response = requests.get(url, headers=headers, allow_redirects=False)
+    if response.status_code == 200:
+        data = response.json()
+        return data['data']['subscribers']
+    else:
         return 0
