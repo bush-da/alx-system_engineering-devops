@@ -1,44 +1,46 @@
 
-# Postmortem Report: Apache Server 500 Internal Server Error Outage
+![Logo](data:image/png;base64,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)
+
+
+# Our journey from chaos to clarity.
 
 
 
-## Issue Summary
+## Issue Summary📝
 `Duration`: August 17, 2024, 14:00 - August 17, 2024, 16:30 UTC
 
-`Impact`: The Apache web server was returning a 500 Internal Server Error for the company's main website. This outage affected 100% of users trying to access the website during the downtime, resulting in complete unavailability of the service.
+`Impact`: Our website turned into a digital ghost town👻, with users greeted by the dreaded 500 Internal Server Error. Every visitor was met with an empty, error-riddled page. This outage left 100% of our users unable to access the site. Not fun!
 
-`Root Cause`: The server was unable to find necessary .php files due to incorrect file extensions (.phpp instead of .php) in the WordPress configuration file.
+`Root Cause`: 🔎🫚The server was unable to find necessary .php files due to incorrect file extensions (.phpp instead of .php) in the WordPress configuration file.
 
-# Timeline
-- 14:00 UTC: Issue detected; users reported an error when accessing the website.
+# Timeline⏱️
+- 14:00 UTC: Panic Mode Activated. Users started reporting that our website was down. “Why does it always happen on weekends?” was the collective sigh from the team.
 
-- 14:05 UTC: Monitoring systems alerted the team to a high number of 500 errors.
+- 14:05 UTC: Monitoring alerts flashed bright red. It was not a drill.
 
-- 14:10 UTC: An engineer started investigating the Apache error logs and traced file access issues.
+- 14:10 UTC: Our tech wizard 👩‍💻 dove into the Apache error logs. “I see dead files,” he declared.
+- 14:20 UTC: `strace` was summoned. Like a digital detective, it traced the system calls and revealed our server’s tragic flaw: it was looking for .phpp files instead of .php.
 
-- 14:20 UTC: strace was used to monitor system calls and revealed the server was looking for files with a .phpp extension.
+- 14:40 UTC: The root cause was uncovered – a configuration snafu in the `wp-settings.php `file. It had been calling for .phpp files. A case of mistaken identity, but not a pretty one.
 
-- 14:40 UTC: The root cause was identified as a misconfiguration in the wp-settings.php file, which had incorrect file extensions.
+- 14:50 UTC: The fix was applied manually using sed. The website was back in action. Cue the celebratory confetti!
 
-- 14:50 UTC: An initial fix was applied manually using sed to replace .phpp with .php in the wp-settings.php file.
+- 15:00 UTC: Normal service resumed. Users could now visit the site without encountering the infamous 500 error.
 
-- 15:00 UTC: The fix was verified, and the website was accessible again.
+- 15:30 UTC: The team wrapped up the incident with high fives and a fresh round of coffee.
 
-- 15:30 UTC: Incident was fully resolved and monitoring confirmed normal operation.
+- 16:00 UTC: The post-incident review went live, including this snazzy postmortem.
+## Root Cause and Resolution🔬
 
-- 16:00 UTC: Post-incident review and documentation of the fix.
-## Root Cause and Resolution
+`Root Cause`: Our WordPress configuration file (wp-settings.php) had a simple but fatal typo: .phpp instead of .php. The server was looking for files that didn’t exist, leading to those dreaded 500 errors. It's like expecting a pizza delivery and getting an empty box.
 
-`Root Cause`: The Apache server was configured to reference .phpp files instead of .php due to an error in the WordPress configuration file (wp-settings.php). This mismatch caused Apache to fail when trying to include or access these files, leading to 500 Internal Server Errors.
+`Resolution`: We corrected the typo with a sed command and made sure it wouldn’t happen again by automating the fix with Puppet. The server now knows the difference between .php and .phpp.
 
-`Resolution`: The issue was resolved by updating the wp-settings.php file to use the correct .php file extension. The fix was applied manually with a sed command and then automated using a Puppet manifest to prevent recurrence.
-
-## Corrective and Preventative Measures
+## Corrective✅ and Preventative ✋Measures
 - Improvements:
 
-    - Implement automated configuration validation checks for file extensions in critical configuration files.
-    - Enhance error handling and logging to capture such configuration errors early in the development or staging environments.
+    - Implement automated checks to catch such typos before they cause chaos. Let’s avoid more pizza box situations.
+    - Enhance logging and error messages to quickly spot configuration blunders in staging.
 
 - Tasks:
 
@@ -46,3 +48,5 @@
     - Add Monitoring: Implement monitoring for file existence and correctness in the web application directory.
     - Review Deployment Processes: Conduct a review of deployment scripts and processes to ensure that file names and extensions are validated before going live.
     - Enhance Logging: Improve logging to include detailed error messages for configuration 
+
+
